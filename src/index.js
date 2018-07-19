@@ -5,11 +5,14 @@
  * @param {String} string - The string to encode.
  * @param {Number} [shiftAmount=3] - The amount to shift by.
  */
-module.exports.encodeCaesar = function(string, shiftAmount) {
+module.exports.encodeCaesar = function(string, shiftAmount=3) {
   let res = '';
 
   for(const i in string) {
-    if(/[^A-Za-z]/.test(string[i])) res += string[i];
+    if(/[^A-Za-z]/.test(string[i])) {
+      res += string[i];
+      continue;
+    }
 
     let _ = string.charCodeAt(i) + shiftAmount;
 
@@ -33,11 +36,14 @@ module.exports.encodeCaesar = function(string, shiftAmount) {
  * @param {String} string - The string to decode.
  * @param {Number} [shiftAmount=3] - The amount to unshift by.
  */
-module.exports.decodeCaesar = function(string, shiftAmount) {
+module.exports.decodeCaesar = function(string, shiftAmount=3) {
   let res = '';
 
   for(const i in string) {
-    if(/[^A-Za-z]/.test(string[i])) res += string[i];
+    if(/[^A-Za-z]/.test(string[i])) {
+      res += string[i];
+      continue;
+    }
 
     let _ = string.charCodeAt(i) - shiftAmount;
 
