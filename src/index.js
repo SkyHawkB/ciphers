@@ -1,3 +1,21 @@
+function shift(char, amount, unshift) {
+  if(unshift) amount = -amount;
+
+  if(/[^A-Za-z]/.test(char)) return char;
+
+  let _ = char.charCodeAt(0) + amount;
+
+  if((_ >= 0x0041 && _ <= 0x005A) || (_ >= 0x0061 && _ <= 0x007A)) {
+    return String.fromCharCode(_);
+  } else {
+    while(!((_ >= 0x0041 && _ <= 0x005A) || (_ >= 0x0061 && _ <= 0x007A))) {
+      _ -= 26;
+    }
+
+    return String.fromCharCode(_);
+  }
+}
+
 /**
  * Encode a string using a [caesar (substitution/shifting) cipher]{@link https://en.wikipedia.org/wiki/Caesar_cipher}.
  * Only shifts letters in the English Alphabet.
@@ -9,22 +27,7 @@ module.exports.encodeCaesar = function(string, shiftAmount=3) {
   let res = '';
 
   for(const i in string) {
-    if(/[^A-Za-z]/.test(string[i])) {
-      res += string[i];
-      continue;
-    }
-
-    let _ = string.charCodeAt(i) + shiftAmount;
-
-    if((_ >= 0x0041 && _ <= 0x005A) || (_ >= 0x0061 && _ <= 0x007A)) {
-      res += String.fromCharCode(_);
-    } else {
-      while(!((_ >= 0x0041 && _ <= 0x005A) || (_ >= 0x0061 && _ <= 0x007A))) {
-        _ -= 26;
-      }
-
-      res += String.fromCharCode(_);
-    }
+    res += shift(string[i], shiftAmount, false);
   }
 
   return res;
@@ -40,22 +43,7 @@ module.exports.decodeCaesar = function(string, shiftAmount=3) {
   let res = '';
 
   for(const i in string) {
-    if(/[^A-Za-z]/.test(string[i])) {
-      res += string[i];
-      continue;
-    }
-
-    let _ = string.charCodeAt(i) - shiftAmount;
-
-    if((_ >= 0x0041 && _ <= 0x005A) || (_ >= 0x0061 && _ <= 0x007A)) {
-      res += String.fromCharCode(_);
-    } else {
-      while(!((_ >= 0x0041 && _ <= 0x005A) || (_ >= 0x0061 && _ <= 0x007A))) {
-        _ += 26;
-      }
-
-      res += String.fromCharCode(_);
-    }
+    res += shift(string[i], shiftAmount, true);
   }
 
   return res;
